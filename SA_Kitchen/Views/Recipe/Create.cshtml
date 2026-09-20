@@ -1,0 +1,251 @@
+﻿@model SA_Kitchen.ViewModels.CreateRecipeViewModel
+
+@{
+    ViewData["Title"] = "Share a Recipe";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-plus-circle"></i> Share Your Recipe</h4>
+                    <p class="mb-0 small">Share your delicious South African recipe with the community!</p>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <!-- Recipe Title -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Title" class="form-label fw-bold"></label>
+                            <input asp-for="Title" class="form-control" placeholder="e.g., Traditional South African Bobotie" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Description" class="form-label fw-bold"></label>
+                            <textarea asp-for="Description" class="form-control" rows="3"
+                                      placeholder="Brief description of your recipe..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                            <small class="form-text text-muted">A short description that will appear in the recipe feed.</small>
+                        </div>
+
+                        <!-- Ingredients -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Ingredients" class="form-label fw-bold"></label>
+                            <textarea asp-for="Ingredients" class="form-control" rows="6"
+                                      placeholder="List your ingredients (one per line)&#10;&#10;Example:&#10;2 cups flour&#10;1 tsp salt&#10;3 large eggs&#10;500g beef mince"></textarea>
+                            <span asp-validation-for="Ingredients" class="text-danger"></span>
+                            <small class="form-text text-muted">Enter each ingredient on a new line with measurements.</small>
+                        </div>
+
+                        <!-- Instructions -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Instructions" class="form-label fw-bold"></label>
+                            <textarea asp-for="Instructions" class="form-control" rows="8"
+                                      placeholder="Step-by-step instructions...&#10;&#10;Example:&#10;1. Preheat oven to 180°C&#10;2. Mix all ingredients in a large bowl&#10;3. Bake for 45 minutes"></textarea>
+                            <span asp-validation-for="Instructions" class="text-danger"></span>
+                            <small class="form-text text-muted">Number each step for clarity.</small>
+                        </div>
+
+                        <!-- Time and Servings -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="PrepTime" class="form-label fw-bold"></label>
+                                    <div class="input-group">
+                                        <input asp-for="PrepTime" class="form-control" type="number" min="1" value="15" />
+                                        <span class="input-group-text">min</span>
+                                    </div>
+                                    <span asp-validation-for="PrepTime" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CookTime" class="form-label fw-bold"></label>
+                                    <div class="input-group">
+                                        <input asp-for="CookTime" class="form-control" type="number" min="1" value="30" />
+                                        <span class="input-group-text">min</span>
+                                    </div>
+                                    <span asp-validation-for="CookTime" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Servings" class="form-label fw-bold"></label>
+                                    <div class="input-group">
+                                        <input asp-for="Servings" class="form-control" type="number" min="1" value="4" />
+                                        <span class="input-group-text">people</span>
+                                    </div>
+                                    <span asp-validation-for="Servings" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cuisine and Difficulty -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CuisineType" class="form-label fw-bold"></label>
+                                    <select asp-for="CuisineType" class="form-control">
+                                        <option value="">Select cuisine type</option>
+                                        <option value="Cape Malay">Cape Malay</option>
+                                        <option value="Braai">Braai</option>
+                                        <option value="Potjiekos">Potjiekos</option>
+                                        <option value="Traditional">Traditional</option>
+                                        <option value="Modern">Modern</option>
+                                        <option value="Fusion">Fusion</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <span asp-validation-for="CuisineType" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DifficultyLevel" class="form-label fw-bold"></label>
+                                    <select asp-for="DifficultyLevel" class="form-control">
+                                        <option value="">Select difficulty</option>
+                                        <option value="Easy">Easy - Beginner friendly</option>
+                                        <option value="Medium">Medium - Some experience needed</option>
+                                        <option value="Hard">Hard - Advanced skills required</option>
+                                    </select>
+                                    <span asp-validation-for="DifficultyLevel" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recipe Image -->
+                        <div class="form-group mb-3">
+                            <label asp-for="RecipeImage" class="form-label fw-bold"></label>
+                            <div class="border rounded p-3">
+                                <div class="text-center mb-2">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                                <input type="file" asp-for="RecipeImage" class="form-control-file" accept="image/*" />
+                                <small class="form-text text-muted">Upload a photo of your delicious dish (JPG, PNG, GIF). Max size: 5MB</small>
+                                <span asp-validation-for="RecipeImage" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Public/Private -->
+                        <div class="form-group mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <div class="form-check form-switch">
+                                        <input asp-for="IsPublic" class="form-check-input" type="checkbox" id="isPublicSwitch" checked />
+                                        <label class="form-check-label fw-bold" for="isPublicSwitch">
+                                            <i class="fas fa-globe-africa"></i> Public Recipe
+                                        </label>
+                                    </div>
+                                    <small class="form-text text-muted">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span id="visibilityText">Public recipes are visible to everyone. Private recipes are only visible to you.</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block w-100">
+                                <i class="fas fa-upload"></i> Share Recipe
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Feed
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tips Card -->
+            <div class="card shadow mt-4 border-success">
+                <div class="card-body">
+                    <h6 class="text-success"><i class="fas fa-lightbulb"></i> Tips for a Great Recipe</h6>
+                    <ul class="text-muted small mb-0">
+                        <li><i class="fas fa-check-circle text-success"></i> Use a clear, descriptive title</li>
+                        <li><i class="fas fa-check-circle text-success"></i> List ingredients in order of use</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Write clear, step-by-step instructions</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Include cooking times and serving sizes</li>
+                        <li><i class="fas fa-check-circle text-success"></i> Add a photo to make your recipe stand out</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Toggle visibility text based on checkbox
+        document.getElementById('isPublicSwitch').addEventListener('change', function() {
+            var visibilityText = document.getElementById('visibilityText');
+            if (this.checked) {
+                visibilityText.textContent = 'Public recipes are visible to everyone. Share your cooking with the world!';
+            } else {
+                visibilityText.textContent = 'Private recipes are only visible to you. Use this for drafts or personal recipes.';
+            }
+        });
+
+        // Preview image before upload
+        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var previewContainer = document.querySelector('.border.rounded.p-3');
+                    var existingPreview = previewContainer.querySelector('img');
+                    if (existingPreview) {
+                        existingPreview.remove();
+                    }
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '200px';
+                    img.style.maxHeight = '200px';
+                    img.className = 'img-thumbnail d-block mx-auto mt-2';
+                    previewContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <style>
+        .form-control-file {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            cursor: pointer;
+        }
+
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+            .btn-success:hover {
+                background-color: #218838;
+                border-color: #1e7e34;
+            }
+    </style>
+}

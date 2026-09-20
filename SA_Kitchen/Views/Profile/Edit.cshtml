@@ -1,0 +1,147 @@
+﻿@model SA_Kitchen.ViewModels.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-user-edit"></i> Edit Profile</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="ProfilePictureUrl" />
+                        <input type="hidden" asp-for="CreatedAt" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FirstName"></label>
+                                    <input asp-for="FirstName" class="form-control" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="LastName"></label>
+                                    <input asp-for="LastName" class="form-control" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Email"></label>
+                            <input asp-for="Email" class="form-control" readonly />
+                            <small class="form-text text-muted">Email cannot be changed</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Bio"></label>
+                            <textarea asp-for="Bio" class="form-control" rows="4"
+                                      placeholder="Tell us about yourself and your cooking journey..."></textarea>
+                            <small class="form-text text-muted">Maximum 500 characters</small>
+                            <span asp-validation-for="Bio" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Province"></label>
+                                    <select asp-for="Province" class="form-control">
+                                        <option value="">Select your province</option>
+                                        <option value="Western Cape">Western Cape</option>
+                                        <option value="Gauteng">Gauteng</option>
+                                        <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                                        <option value="Eastern Cape">Eastern Cape</option>
+                                        <option value="Free State">Free State</option>
+                                        <option value="Limpopo">Limpopo</option>
+                                        <option value="Mpumalanga">Mpumalanga</option>
+                                        <option value="North West">North West</option>
+                                        <option value="Northern Cape">Northern Cape</option>
+                                    </select>
+                                    <span asp-validation-for="Province" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Country"></label>
+                                    <input asp-for="Country" class="form-control" />
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="FavoriteCuisine"></label>
+                            <select asp-for="FavoriteCuisine" class="form-control">
+                                <option value="">Select your favorite</option>
+                                <option value="Cape Malay">Cape Malay</option>
+                                <option value="Braai">Braai</option>
+                                <option value="Potjiekos">Potjiekos</option>
+                                <option value="Biltong & Droëwors">Biltong & Droëwors</option>
+                                <option value="Koeksisters">Koeksisters</option>
+                                <option value="Vetkoek">Vetkoek</option>
+                                <option value="Bobotie">Bobotie</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span asp-validation-for="FavoriteCuisine" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ProfileImage">Profile Picture</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="file" asp-for="ProfileImage" class="form-control-file" accept="image/*" />
+                                    <small class="form-text text-muted">Upload a profile picture (JPG, PNG, GIF)</small>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    @if (!string.IsNullOrEmpty(Model.ProfilePictureUrl))
+                                    {
+                                        <img src="@Model.ProfilePictureUrl"
+                                             alt="Current Profile Picture"
+                                             class="img-thumbnail"
+                                             style="max-height: 100px; max-width: 100px;" />
+                                        <br />
+                                        <small class="text-muted">Current Picture</small>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-muted">
+                                            <i class="fas fa-user-circle fa-4x"></i>
+                                            <br />
+                                            <small>No picture uploaded</small>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block w-100">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Profile
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+}

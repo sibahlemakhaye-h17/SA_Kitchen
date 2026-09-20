@@ -1,0 +1,72 @@
+﻿@model SA_Kitchen.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Welcome Back";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white text-center">
+                    <h2><i class="fas fa-utensil-spoon"></i> Welcome Back!</h2>
+                    <p class="mb-0">Log in to share your recipes</p>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Login" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+                        <div class="form-group">
+                            <label asp-for="Email"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <input asp-for="Email" class="form-control" placeholder="you@example.com" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Password"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                </div>
+                                <input asp-for="Password" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group form-check">
+                            <input asp-for="RememberMe" class="form-check-input" />
+                            <label asp-for="RememberMe" class="form-check-label"></label>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block w-100">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <p>Don't have an account? <a asp-action="Register" class="text-success">Register here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <p class="text-muted">
+                    <i class="fas fa-flag"></i> South African flavors, shared with the world!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+}

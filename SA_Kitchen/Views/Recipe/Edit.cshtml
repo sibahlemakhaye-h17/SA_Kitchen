@@ -1,0 +1,146 @@
+﻿@model SA_Kitchen.ViewModels.EditRecipeViewModel
+
+@{
+    ViewData["Title"] = "Edit Recipe";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-edit"></i> Edit Recipe</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="RecipeImageUrl" />
+
+                        <div class="form-group">
+                            <label asp-for="Title"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Description"></label>
+                            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Ingredients"></label>
+                            <textarea asp-for="Ingredients" class="form-control" rows="5"></textarea>
+                            <span asp-validation-for="Ingredients" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Instructions"></label>
+                            <textarea asp-for="Instructions" class="form-control" rows="6"></textarea>
+                            <span asp-validation-for="Instructions" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="PrepTime"></label>
+                                    <input asp-for="PrepTime" class="form-control" type="number" min="1" />
+                                    <span asp-validation-for="PrepTime" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CookTime"></label>
+                                    <input asp-for="CookTime" class="form-control" type="number" min="1" />
+                                    <span asp-validation-for="CookTime" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Servings"></label>
+                                    <input asp-for="Servings" class="form-control" type="number" min="1" />
+                                    <span asp-validation-for="Servings" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CuisineType"></label>
+                                    <select asp-for="CuisineType" class="form-control">
+                                        <option value="">Select cuisine type</option>
+                                        <option value="Cape Malay">Cape Malay</option>
+                                        <option value="Braai">Braai</option>
+                                        <option value="Potjiekos">Potjiekos</option>
+                                        <option value="Traditional">Traditional</option>
+                                        <option value="Modern">Modern</option>
+                                        <option value="Fusion">Fusion</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <span asp-validation-for="CuisineType" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DifficultyLevel"></label>
+                                    <select asp-for="DifficultyLevel" class="form-control">
+                                        <option value="">Select difficulty</option>
+                                        <option value="Easy">Easy</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Hard">Hard</option>
+                                    </select>
+                                    <span asp-validation-for="DifficultyLevel" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Current Image</label>
+                            @if (!string.IsNullOrEmpty(Model.RecipeImageUrl))
+                            {
+                                <div>
+                                    <img src="@Model.RecipeImageUrl" alt="Recipe Image" style="max-height: 150px; max-width: 200px;" class="img-thumbnail" />
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-muted">No image uploaded</p>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="RecipeImage">Upload New Image</label>
+                            <input type="file" asp-for="RecipeImage" class="form-control-file" accept="image/*" />
+                            <small class="form-text text-muted">Leave empty to keep current image</small>
+                            <span asp-validation-for="RecipeImage" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group form-check">
+                            <input asp-for="IsPublic" class="form-check-input" />
+                            <label asp-for="IsPublic" class="form-check-label"></label>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block w-100">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Recipe
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+}

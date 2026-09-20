@@ -1,0 +1,136 @@
+﻿@model IEnumerable<SA_Kitchen.ViewModels.RecipeViewModel>
+
+@{
+    ViewData["Title"] = "Recipe Feed";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2><i class="fas fa-utensils"></i> Recipe Feed</h2>
+            <p class="text-muted">Discover delicious South African recipes shared by our community</p>
+        </div>
+        <div class="col-md-4 text-end">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus-circle"></i> Share a Recipe
+                </a>
+            }
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-utensils fa-4x text-muted mb-3"></i>
+            <h3>No recipes yet!</h3>
+            <p class="text-muted">Be the first to share a delicious South African recipe.</p>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus-circle"></i> Share Your Recipe
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login" class="btn btn-success">
+                    <i class="fas fa-sign-in-alt"></i> Login to Share
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var recipe in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow hover-card">
+                        @if (!string.IsNullOrEmpty(recipe.RecipeImageUrl))
+                        {
+                            <img src="@recipe.RecipeImageUrl" class="card-img-top" alt="@recipe.Title" style="height: 200px; object-fit: cover;" />
+                        }
+                        else
+                        {
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="fas fa-utensils fa-4x text-muted"></i>
+                            </div>
+                        }
+
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title">@recipe.Title</h5>
+                                @if (!recipe.IsPublic)
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="fas fa-lock"></i> Private
+                                    </span>
+                                }
+                            </div>
+
+                            <p class="card-text text-muted small">@recipe.Description</p>
+
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div>
+                                    <span class="badge bg-success">@recipe.CuisineType</span>
+                                    <span class="badge bg-info">@recipe.DifficultyLevel</span>
+                                </div>
+                                <small class="text-muted">
+                                    <i class="far fa-clock"></i> @recipe.TotalTime min
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="card-footer bg-transparent">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    @if (!string.IsNullOrEmpty(recipe.UserProfilePicture))
+                                    {
+                                        <img src="@recipe.UserProfilePicture" alt="@recipe.UserName" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">
+                                            <i class="fas fa-user text-white fa-xs"></i>
+                                        </div>
+                                    }
+                                    <small class="ms-2 text-muted">@recipe.UserName</small>
+                                </div>
+                                <a asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-success">
+                                    View Recipe
+                                </a>
+                            </div>
+                            <small class="text-muted d-block mt-1">
+                                <i class="far fa-calendar-alt"></i> @recipe.CreatedAt.ToString("MMM dd, yyyy")
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+</style>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+}

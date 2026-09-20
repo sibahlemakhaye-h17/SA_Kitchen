@@ -1,0 +1,71 @@
+﻿@model SA_Kitchen.Models.Recipe
+
+@{
+    ViewData["Title"] = "Delete Recipe";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0"><i class="fas fa-trash"></i> Delete Recipe</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Are you sure you want to delete this recipe?</strong>
+                        <p class="mb-0 mt-2">This action cannot be undone.</p>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                @if (!string.IsNullOrEmpty(Model.RecipeImageUrl))
+                                {
+                                    <img src="@Model.RecipeImageUrl" class="img-fluid rounded-start" alt="@Model.Title" style="height: 100%; object-fit: cover;" />
+                                }
+                                else
+                                {
+                                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 100%; min-height: 200px;">
+                                        <i class="fas fa-utensils fa-4x text-muted"></i>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">@Model.Title</h5>
+                                    <p class="card-text">@Model.Description</p>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Cuisine:</strong> @Model.CuisineType</li>
+                                        <li><strong>Difficulty:</strong> @Model.DifficultyLevel</li>
+                                        <li><strong>Servings:</strong> @Model.Servings</li>
+                                        <li><strong>Total Time:</strong> @(Model.PrepTime + Model.CookTime) minutes</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-danger btn-block w-100">
+                                <i class="fas fa-trash"></i> Confirm Delete
+                            </button>
+                        </div>
+                        <div class="text-center mt-2">
+                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+}
